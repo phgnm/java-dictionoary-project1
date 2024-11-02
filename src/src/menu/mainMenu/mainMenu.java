@@ -26,12 +26,21 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        ;
+        if (e.getValueIsAdjusting()) {
+            int row = tableSearch.getSelectedRow();
+            int col = tableSearch.getSelectedColumn();
+            if (row == -1 || col == -1) {
+                return;
+            }
+
+
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        ;
-
+        if (e.getSource() == searchButton) {
+            ;
+        }
     }
 }
