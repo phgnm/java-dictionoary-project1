@@ -1,5 +1,7 @@
 package menu.mainMenu;
 
+import slangs.slangWord;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -24,12 +26,18 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
 
     private DefaultTableModel model;
     private String[][] searchResult;
+    private slangWord slangs = new slangWord();
 
     public mainMenu(String title) {
         super(title);
 
         searchField = new JTextField();
         searchButton = new JButton("Search");
+        historyButton = new JButton("History");
+        quizButton = new JButton("Quiz");
+        resetButton = new JButton("Reset");
+        randomButton = new JButton("Random");
+        addButton = new JButton("Add");
         typeSearch = new JComboBox();
         tableSearch = new JTable();
         mainPanel = new JPanel();
@@ -42,7 +50,7 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
         typeSearch.setPreferredSize(new Dimension(150, 30));
         searchButton.setMaximumSize(new Dimension(150, 30));
         searchButton.setPreferredSize(new Dimension(150, 30));
-        String column[] = {"ID", "Slang", "Definition"};
+        String[] column = {"ID", "Slang", "Definition"};
         tableSearch.setModel(new DefaultTableModel(column, 0));
         tableSearch.setRowHeight(30);
         model = (DefaultTableModel) tableSearch.getModel();
@@ -54,13 +62,22 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
         ListSelectionModel selectionModel = tableSearch.getSelectionModel();
         selectionModel.addListSelectionListener(this);
         
-        mainPanel.add(searchField);
-        mainPanel.add(typeSearch);
-        mainPanel.add(searchButton);
-        mainPanel.add(new JScrollPane(tableSearch));
+        searchButton.addActionListener(this);
+        historyButton.addActionListener(this);
+        quizButton.addActionListener(this);
+        resetButton.addActionListener(this);
+        randomButton.addActionListener(this);
+        addButton.addActionListener(this);
 
-        this.add(mainPanel);
+        this.setContentPane(mainPanel);
         this.pack();
+    }
+
+    void clearTable() {
+        int row = model.getRowCount() - 1;
+        for (int i = row; i >= 0; i--) {
+            model.removeRow(i);
+        }
     }
     public static void main(String[] args) {
         mainMenu app = new mainMenu("Dictionary");
@@ -85,7 +102,34 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
         if (e.getSource() == searchButton) {
             String key = searchField.getText();
             if (key.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter a slang word!");
+                JOptionPane.showMessageDialog(this, "Please enter a slang word!", "Searching error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            this.clearTable();
+            long timeElapsed = 0;
+
+            if (typeSearch.getSelectedItem().equals("slang word")) {
+                long startTime = System.currentTimeMillis();
+
+                long endTime = System.currentTimeMillis();
+                timeElapsed = endTime - startTime;
+            }
+            else {
+                long startTime = System.currentTimeMillis();
+
+                long endTime = System.currentTimeMillis();
+                timeElapsed = endTime - startTime;
+            }
+            if (searchResult != null)
+                executionTime.setText(timeElapsed + "ms");
+            else {
+                executionTime.setText("Word not found");
+                return;
+            }
+            for (int i = 0; i< searchResult.length; i++) {
+                String ss[] = searchResult[i];
+                model.addRow(ss);
             }
         }
     }
