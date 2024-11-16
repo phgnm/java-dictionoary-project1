@@ -15,6 +15,8 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
     private JPanel mainPanel;
     private JButton historyButton;
     private JButton addButton;
+    private JButton editButton;
+    private JButton deleteButton;
     private JButton resetButton;
     private JButton randomButton;
     private JButton quizButton;
@@ -27,30 +29,19 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
     private DefaultTableModel model;
     private String[][] searchResult;
     private slangWord slangs = new slangWord();
+    String[] column = {"ID", "Slang", "Definition"};
 
     public mainMenu(String title) {
         super(title);
-
-        searchField = new JTextField();
-        searchButton = new JButton("Search");
-        historyButton = new JButton("History");
-        quizButton = new JButton("Quiz");
-        resetButton = new JButton("Reset");
-        randomButton = new JButton("Random");
-        addButton = new JButton("Add");
-        typeSearch = new JComboBox();
-        tableSearch = new JTable();
-        mainPanel = new JPanel();
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         searchField.setMaximumSize(new Dimension(150, 30));
         searchField.setPreferredSize(new Dimension(150, 30));
-        typeSearch.setMaximumSize(new Dimension(150, 30));
-        typeSearch.setPreferredSize(new Dimension(150, 30));
-        searchButton.setMaximumSize(new Dimension(150, 30));
-        searchButton.setPreferredSize(new Dimension(150, 30));
-        String[] column = {"ID", "Slang", "Definition"};
+        typeSearch.setMaximumSize(new Dimension(100, 30));
+        typeSearch.setPreferredSize(new Dimension(100, 30));
+        searchButton.setMaximumSize(new Dimension(100, 30));
+        searchButton.setPreferredSize(new Dimension(100, 30));
         tableSearch.setModel(new DefaultTableModel(column, 0));
         tableSearch.setRowHeight(30);
         model = (DefaultTableModel) tableSearch.getModel();
@@ -61,13 +52,15 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
         tableSearch.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         ListSelectionModel selectionModel = tableSearch.getSelectionModel();
         selectionModel.addListSelectionListener(this);
-        
+
         searchButton.addActionListener(this);
         historyButton.addActionListener(this);
-        quizButton.addActionListener(this);
+        addButton.addActionListener(this);
+        editButton.addActionListener(this);
+        deleteButton.addActionListener(this);
         resetButton.addActionListener(this);
         randomButton.addActionListener(this);
-        addButton.addActionListener(this);
+        quizButton.addActionListener(this);
 
         this.setContentPane(mainPanel);
         this.pack();
@@ -86,14 +79,12 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        if (e.getValueIsAdjusting()) {
+        if (!e.getValueIsAdjusting()) {
             int row = tableSearch.getSelectedRow();
             int col = tableSearch.getSelectedColumn();
             if (row == -1 || col == -1) {
                 return;
             }
-
-
         }
     }
 
@@ -111,13 +102,13 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
 
             if (typeSearch.getSelectedItem().equals("slang word")) {
                 long startTime = System.currentTimeMillis();
-
+                searchResult = slangs.getMeaning(key);
                 long endTime = System.currentTimeMillis();
                 timeElapsed = endTime - startTime;
             }
             else {
                 long startTime = System.currentTimeMillis();
-
+                searchResult = slangs.findDefinition(key);
                 long endTime = System.currentTimeMillis();
                 timeElapsed = endTime - startTime;
             }
