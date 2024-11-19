@@ -100,7 +100,7 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
             this.clearTable();
             long timeElapsed = 0;
 
-            if (typeSearch.getSelectedItem().equals("slang word")) {
+            if (typeSearch.getSelectedItem().equals("Search a slang")) {
                 long startTime = System.currentTimeMillis();
                 searchResult = slangs.getMeaning(key);
                 long endTime = System.currentTimeMillis();
