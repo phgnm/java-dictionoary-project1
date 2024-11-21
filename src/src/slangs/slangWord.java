@@ -15,6 +15,14 @@ public class slangWord {
                 if (line == null) {
                     break;
                 }
+                boolean isLegit = false;
+                for (char c : line.toCharArray()) {
+                    if (c == '`')
+                        isLegit = true;
+                }
+                if (!isLegit) {
+                    continue;
+                }
                 String[] split = line.split("`");
                 List<String> definition = new ArrayList();
                 if (split.length == 2) {
@@ -67,5 +75,47 @@ public class slangWord {
             definition[i][2] = meaningsList.get(i);
         }
         return definition;
+    }
+
+    public void updateFile(String file) {
+        try (FileWriter f = new FileWriter(file);
+             BufferedWriter b = new BufferedWriter(f);
+             PrintWriter p = new PrintWriter(b);) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Slag`Meaning\n");
+            String s[][] = new String[slangMap.size()][3];
+            Set<String> keySet = slangMap.keySet();
+            Object[] keyArray = keySet.toArray();
+            for (int i = 0; i < slangMap.size(); i++) {
+                int id = i + 1;
+                s[i][0] = String.valueOf(id);
+                s[i][1] = (String) keyArray[i];
+                List<String> meaning = slangMap.get(keyArray[i]);
+                sb.append(s[i][1] + "`" + meaning.get(0));
+                for (int j = 1; j < meaning.size(); j++) {
+                    sb.append("|" + meaning.get(j));
+                }
+                sb.append("\n");
+            }
+            p.write(sb.toString());
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    public boolean checkCoincidence(String slang) {
+        return slangMap.get(slang) != null;
+    }
+
+    public void Overwrite(String slang, String definition) {
+        List<String> list = new ArrayList<String>();
+        list.add(definition);
+        slangMap.put(slang, list);
+        this.updateFile(dictFile);
+    }
+
+    public void Duplicate(String slang, String definition) {
+        slangMap.get(slang).add(definition);
+        this.updateFile(dictFile);
     }
 }
