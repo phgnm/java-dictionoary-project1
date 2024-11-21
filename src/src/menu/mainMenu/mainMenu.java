@@ -2,6 +2,8 @@ package menu.mainMenu;
 
 import slangs.slangWord;
 
+import menu.addMenu.addMenu;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -10,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class mainMenu extends JFrame implements ListSelectionListener, ActionListener {
     private JPanel mainPanel;
@@ -37,11 +40,13 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         searchField.setMaximumSize(new Dimension(150, 30));
-        searchField.setPreferredSize(new Dimension(150, 30));
         typeSearch.setMaximumSize(new Dimension(100, 30));
-        typeSearch.setPreferredSize(new Dimension(100, 30));
         searchButton.setMaximumSize(new Dimension(100, 30));
+
+        searchField.setPreferredSize(new Dimension(150, 30));
+        typeSearch.setPreferredSize(new Dimension(100, 30));
         searchButton.setPreferredSize(new Dimension(100, 30));
+
         tableSearch.setModel(new DefaultTableModel(column, 0));
         tableSearch.setRowHeight(30);
         model = (DefaultTableModel) tableSearch.getModel();
@@ -93,14 +98,14 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
         if (e.getSource() == searchButton) {
             String key = searchField.getText();
             if (key.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter a slang word!", "Searching error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter something to search!", "Searching error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             this.clearTable();
             long timeElapsed = 0;
 
-            if (typeSearch.getSelectedItem().equals("Search a slang")) {
+            if (Objects.equals(typeSearch.getSelectedItem(), "Search a slang")) {
                 long startTime = System.currentTimeMillis();
                 searchResult = slangs.getMeaning(key);
                 long endTime = System.currentTimeMillis();
@@ -113,15 +118,18 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
                 timeElapsed = endTime - startTime;
             }
             if (searchResult != null)
-                executionTime.setText(timeElapsed + "ms");
+                executionTime.setText("Search time: " + timeElapsed + "ms");
             else {
                 executionTime.setText("Word not found");
                 return;
             }
-            for (int i = 0; i< searchResult.length; i++) {
-                String ss[] = searchResult[i];
+            for (String[] ss : searchResult) {
                 model.addRow(ss);
             }
+        }
+        else if (e.getSource() == addButton) {
+            addMenu AddMenu = new addMenu("Add a slang", slangs);
+            AddMenu.setVisible(true);
         }
     }
 }
