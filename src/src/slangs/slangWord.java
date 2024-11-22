@@ -32,9 +32,6 @@ public class slangWord {
                     }
                     slangMap.put(split[0], definition);
                 }
-                else {
-                    break;
-                }
             }
         }
         catch (Exception e) {
@@ -77,7 +74,7 @@ public class slangWord {
         return definition;
     }
 
-    public void updateFile(String file) {
+    void updateFile(String file) {
         try (FileWriter f = new FileWriter(file);
              BufferedWriter b = new BufferedWriter(f);
              PrintWriter p = new PrintWriter(b);) {
@@ -103,9 +100,6 @@ public class slangWord {
             System.out.println(e);
         }
     }
-    public boolean checkCoincidence(String slang) {
-        return slangMap.get(slang) != null;
-    }
 
     public void Overwrite(String slang, String definition) {
         List<String> list = new ArrayList<String>();
@@ -117,5 +111,15 @@ public class slangWord {
     public void Duplicate(String slang, String definition) {
         slangMap.get(slang).add(definition);
         this.updateFile(dictFile);
+    }
+
+    public void Set(String slang, String curValue, String newValue) {
+        List<String> definitions = slangMap.get(slang);
+        int id = definitions.indexOf(curValue);
+        definitions.set(id, newValue);
+        this.updateFile(dictFile);
+    }
+    public boolean checkCoincidence(String slang) {
+        return slangMap.get(slang) != null;
     }
 }

@@ -2,7 +2,7 @@ Slag`Meaning
  HK`Hong Kong|Hostile Kids
  MCR`My Chemical Romance (band)
 #1`Number one
-$`Dollar|money
+$`Gimme cash|money
 $_$`Has money
 %)`Drunk|giddy
 &`And

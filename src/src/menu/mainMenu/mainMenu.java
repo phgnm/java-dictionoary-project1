@@ -3,10 +3,9 @@ package menu.mainMenu;
 import slangs.slangWord;
 
 import menu.addMenu.addMenu;
+import menu.editMenu.editMenu;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -14,7 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
 
-public class mainMenu extends JFrame implements ListSelectionListener, ActionListener {
+public class mainMenu extends JFrame implements ActionListener {
     private JPanel mainPanel;
     private JButton historyButton;
     private JButton addButton;
@@ -38,7 +37,7 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
         super(title);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
+
         searchField.setMaximumSize(new Dimension(150, 30));
         typeSearch.setMaximumSize(new Dimension(100, 30));
         searchButton.setMaximumSize(new Dimension(100, 30));
@@ -47,16 +46,23 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
         typeSearch.setPreferredSize(new Dimension(100, 30));
         searchButton.setPreferredSize(new Dimension(100, 30));
 
-        tableSearch.setModel(new DefaultTableModel(column, 0));
+        tableSearch.setModel(new DefaultTableModel(column, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
         tableSearch.setRowHeight(30);
         model = (DefaultTableModel) tableSearch.getModel();
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        tableSearch.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        tableSearch.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        tableSearch.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        tableSearch.getColumnModel().getColumn(0).setPreferredWidth(100);
+        tableSearch.getColumnModel().getColumn(0).setResizable(false);
+        tableSearch.getColumnModel().getColumn(1).setPreferredWidth(200);
+        tableSearch.getColumnModel().getColumn(1).setResizable(false);
+        tableSearch.getColumnModel().getColumn(2).setPreferredWidth(300);
+        tableSearch.getColumnModel().getColumn(2).setResizable(false);
         ListSelectionModel selectionModel = tableSearch.getSelectionModel();
-        selectionModel.addListSelectionListener(this);
 
         searchButton.addActionListener(this);
         historyButton.addActionListener(this);
@@ -80,17 +86,6 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
     public static void main(String[] args) {
         mainMenu app = new mainMenu("Dictionary");
         app.setVisible(true);
-    }
-
-    @Override
-    public void valueChanged(ListSelectionEvent e) {
-        if (!e.getValueIsAdjusting()) {
-            int row = tableSearch.getSelectedRow();
-            int col = tableSearch.getSelectedColumn();
-            if (row == -1 || col == -1) {
-                return;
-            }
-        }
     }
 
     @Override
@@ -130,6 +125,19 @@ public class mainMenu extends JFrame implements ListSelectionListener, ActionLis
         else if (e.getSource() == addButton) {
             addMenu AddMenu = new addMenu("Add a slang", slangs);
             AddMenu.setVisible(true);
+        }
+        else if (e.getSource() == editButton) {
+            int selectedRow = tableSearch.getSelectedRow();
+            int selectedCol = tableSearch.getSelectedColumn();
+            if (selectedRow == -1 || selectedCol == -1) {
+                JOptionPane.showMessageDialog(this, "Please select something to edit!", "Edit error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                String selectedWord = (String) tableSearch.getValueAt(selectedRow, 1);
+                String selectedDefinition = (String) tableSearch.getValueAt(selectedRow, 2);
+                editMenu editmenu = new editMenu("Edit a slang", slangs, selectedWord, selectedDefinition);
+                editmenu.setVisible(true);
+            }
         }
     }
 }
