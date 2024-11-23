@@ -2,11 +2,14 @@ package slangs;
 
 import java.io.*;
 import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class slangWord {
     private TreeMap<String, List<String>> slangMap = new TreeMap<>();
     private int size;
     private String dictFile = ".\\data\\slang.txt";
+    private static String historyFile = ".\\data\\history.txt";
 
     public slangWord() {
         try(BufferedReader br = new BufferedReader(new FileReader(dictFile))) {
@@ -74,13 +77,67 @@ public class slangWord {
         return definition;
     }
 
+    public static void addToHistory(String[][] history) {
+        try (FileWriter f = new FileWriter(historyFile, true);
+             BufferedWriter b = new BufferedWriter(f);
+             PrintWriter p = new PrintWriter(b);) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+
+            for (String[] s : history) {
+                p.println(s[1] + "`" + s[2] + "`" + dtf.format(now));
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String[][] readHistory() {
+        String[][] s = null;
+
+        List<String> slangHistory = new ArrayList<>();
+        List<String> definitionHistory = new ArrayList<>();
+        List<String> timeHistory = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(historyFile))) {
+            while (true) {
+                String line = br.readLine();
+
+                if (line == null) {
+                    break;
+                }
+
+                String[] split = line.split("`");
+                if (split.length == 3) {
+                    slangHistory.add(split[0]);
+                    definitionHistory.add(split[1]);
+                    timeHistory.add(split[2]);
+                }
+                else break;
+            }
+            int size = slangHistory.size();
+            s = new String[size][4];
+            for (int i = 0; i < size; i++) {
+                s[size -i - 1][0] = String.valueOf(size - i);
+                s[size -i - 1][1] = slangHistory.get(i);
+                s[size -i - 1][2] = definitionHistory.get(i);
+                s[size -i - 1][3] = timeHistory.get(i);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return s;
+    }
+
     void updateFile(String file) {
         try (FileWriter f = new FileWriter(file);
              BufferedWriter b = new BufferedWriter(f);
              PrintWriter p = new PrintWriter(b);) {
             StringBuilder sb = new StringBuilder();
             sb.append("Slag`Meaning\n");
-            String s[][] = new String[slangMap.size()][3];
+            String[][] s = new String[slangMap.size()][3];
             Set<String> keySet = slangMap.keySet();
             Object[] keyArray = keySet.toArray();
             for (int i = 0; i < slangMap.size(); i++) {
@@ -88,9 +145,9 @@ public class slangWord {
                 s[i][0] = String.valueOf(id);
                 s[i][1] = (String) keyArray[i];
                 List<String> meaning = slangMap.get(keyArray[i]);
-                sb.append(s[i][1] + "`" + meaning.get(0));
+                sb.append(s[i][1]).append("`").append(meaning.getFirst());
                 for (int j = 1; j < meaning.size(); j++) {
-                    sb.append("|" + meaning.get(j));
+                    sb.append("|").append(meaning.get(j));
                 }
                 sb.append("\n");
             }

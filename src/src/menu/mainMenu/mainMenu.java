@@ -1,5 +1,6 @@
 package menu.mainMenu;
 
+import menu.historyMenu.historyMenu;
 import slangs.slangWord;
 
 import menu.addMenu.addMenu;
@@ -62,7 +63,6 @@ public class mainMenu extends JFrame implements ActionListener {
         tableSearch.getColumnModel().getColumn(1).setResizable(false);
         tableSearch.getColumnModel().getColumn(2).setPreferredWidth(300);
         tableSearch.getColumnModel().getColumn(2).setResizable(false);
-        ListSelectionModel selectionModel = tableSearch.getSelectionModel();
 
         searchButton.addActionListener(this);
         historyButton.addActionListener(this);
@@ -121,6 +121,12 @@ public class mainMenu extends JFrame implements ActionListener {
             for (String[] ss : searchResult) {
                 model.addRow(ss);
             }
+
+            slangWord.addToHistory(searchResult);
+        }
+        else if (e.getSource() == historyButton) {
+            historyMenu historymenu = new historyMenu("Search history");
+            historymenu.setVisible(true);
         }
         else if (e.getSource() == addButton) {
             addMenu AddMenu = new addMenu("Add a slang", slangs);
