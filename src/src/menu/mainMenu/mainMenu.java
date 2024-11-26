@@ -122,7 +122,7 @@ public class mainMenu extends JFrame implements ActionListener {
                 model.addRow(ss);
             }
 
-            slangWord.addToHistory(searchResult);
+            slangs.addToHistory(searchResult);
         }
         else if (e.getSource() == historyButton) {
             historyMenu historymenu = new historyMenu("Search history");
@@ -144,6 +144,27 @@ public class mainMenu extends JFrame implements ActionListener {
                 editMenu editmenu = new editMenu("Edit a slang", slangs, selectedWord, selectedDefinition);
                 editmenu.setVisible(true);
             }
+        }
+        else if (e.getSource() == deleteButton) {
+            int selectedRow = tableSearch.getSelectedRow();
+            int selectedCol = tableSearch.getSelectedColumn();
+            if (selectedRow == -1 || selectedCol == -1) {
+                JOptionPane.showMessageDialog(this, "Please select something to delete!", "Delete error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                String selectedWord = (String) tableSearch.getValueAt(selectedRow, 1);
+                String selectedDefinition = (String) tableSearch.getValueAt(selectedRow, 2);
+                int n = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this slang word?", "Delete a slang word", JOptionPane.YES_NO_OPTION);
+                if (n == JOptionPane.NO_OPTION) {
+                    return;
+                }
+                slangs.deleteSlang(selectedWord, selectedDefinition);
+                JOptionPane.showMessageDialog(this, "Successfully deleted " + selectedDefinition + " from the word " + selectedWord, "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if (e.getSource() == resetButton) {
+            slangs.reset();
+            JOptionPane.showMessageDialog(this, "Successfully reset!", "Success", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

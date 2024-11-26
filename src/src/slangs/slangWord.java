@@ -9,6 +9,7 @@ public class slangWord {
     private TreeMap<String, List<String>> slangMap = new TreeMap<>();
     private int size;
     private String dictFile = ".\\data\\slang.txt";
+    private String originFile = ".\\data\\slangOrigin.txt";
     private static String historyFile = ".\\data\\history.txt";
 
     public slangWord() {
@@ -27,7 +28,7 @@ public class slangWord {
                     continue;
                 }
                 String[] split = line.split("`");
-                List<String> definition = new ArrayList();
+                List<String> definition = new ArrayList<>();
                 if (split.length == 2) {
                     String[] splitDefinition = split[1].split("\\|");
                     for (String def : splitDefinition) {
@@ -77,7 +78,7 @@ public class slangWord {
         return definition;
     }
 
-    public static void addToHistory(String[][] history) {
+    public void addToHistory(String[][] history) {
         try (FileWriter f = new FileWriter(historyFile, true);
              BufferedWriter b = new BufferedWriter(f);
              PrintWriter p = new PrintWriter(b);) {
@@ -176,6 +177,50 @@ public class slangWord {
         definitions.set(id, newValue);
         this.updateFile(dictFile);
     }
+
+    public void deleteSlang(String slang, String definition) {
+        List<String> list = slangMap.get(slang);
+        if (list.size() == 1) {
+            slangMap.remove(slang);
+        }
+        else {
+            list.remove(definition);
+        }
+        this.updateFile(dictFile);
+    }
+
+    public void reset() {
+        slangMap = new TreeMap<>();
+        try(BufferedReader br = new BufferedReader(new FileReader(originFile))) {
+            while(true) {
+                String line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                boolean isLegit = false;
+                for (char c : line.toCharArray()) {
+                    if (c == '`')
+                        isLegit = true;
+                }
+                if (!isLegit) {
+                    continue;
+                }
+                String[] split = line.split("`");
+                List<String> definition = new ArrayList<>();
+                if (split.length == 2) {
+                    String[] splitDefinition = split[1].split("\\|");
+                    for (String def : splitDefinition) {
+                        definition.add(def.trim());
+                    }
+                    slangMap.put(split[0], definition);
+                }
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
     public boolean checkCoincidence(String slang) {
         return slangMap.get(slang) != null;
     }
