@@ -12,6 +12,10 @@ public class slangWord {
     private String originFile = ".\\data\\slangOrigin.txt";
     private static String historyFile = ".\\data\\history.txt";
 
+    public int randomizeInt(int min, int max) {
+        return (min + (int) (Math.random() * max));
+    }
+
     public slangWord() {
         try(BufferedReader br = new BufferedReader(new FileReader(dictFile))) {
             while(true) {
@@ -220,7 +224,27 @@ public class slangWord {
             System.out.println(e);
         }
     }
+    public String randomizeASlang() {
+        int min = 0;
+        int max = slangMap.size() - 1;
+        int rand = randomizeInt(min, max);
 
+        Set<String> keySet = slangMap.keySet();
+        List<String> keyList = new ArrayList<>(keySet);
+
+        List<String> value = slangMap.get(keyList.get(rand));
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(keyList.get(rand)).append(": ");
+        for (int i = 0; i < value.size(); i++) {
+            sb.append(value.get(i)).append(", ");
+
+            if (i != value.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        return sb.toString();
+    }
     public boolean checkCoincidence(String slang) {
         return slangMap.get(slang) != null;
     }

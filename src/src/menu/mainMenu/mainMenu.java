@@ -166,5 +166,8 @@ public class mainMenu extends JFrame implements ActionListener {
             slangs.reset();
             JOptionPane.showMessageDialog(this, "Successfully reset!", "Success", JOptionPane.INFORMATION_MESSAGE);
         }
+        else if (e.getSource() == randomButton) {
+            JOptionPane.showMessageDialog(this, slangs.randomizeASlang(), "Randomize a slang", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 }
