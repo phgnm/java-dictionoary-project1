@@ -248,4 +248,33 @@ public class slangWord {
     public boolean checkCoincidence(String slang) {
         return slangMap.get(slang) != null;
     }
+
+    public String[][] getQuiz () {
+        String[][] quiz = new String[4][2];
+
+        List<Integer> indices = new ArrayList<>();
+
+        Set<String> keySet = slangMap.keySet();
+        List<String> keyList = new ArrayList<>(keySet);
+
+        int cnt = 0;
+        while (indices.size() < 4) {
+            int min = 0;
+            int max = slangMap.size() - 1;
+            int rd = randomizeInt(min, max);
+            List<String> value = slangMap.get(keyList.get(rd));
+            if (!indices.contains(rd)) {
+                indices.add(rd);
+                quiz[cnt][0] = keyList.get(rd);
+
+                int mn = 0;
+                int mx = value.size() - 1;
+                int rd_val = randomizeInt(mn, mx);
+
+                quiz[cnt][1] = value.get(rd_val);
+                cnt++;
+            }
+        }
+        return quiz;
+    }
 }

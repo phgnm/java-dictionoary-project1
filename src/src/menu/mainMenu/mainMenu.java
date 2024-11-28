@@ -1,18 +1,16 @@
 package menu.mainMenu;
 
-import menu.historyMenu.historyMenu;
-import slangs.slangWord;
-
 import menu.addMenu.addMenu;
 import menu.editMenu.editMenu;
+import menu.historyMenu.historyMenu;
+import menu.quizMenu.quizMenu;
+import slangs.slangWord;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Objects;
+import java.awt.event.*;
+import java.util.*;
 
 public class mainMenu extends JFrame implements ActionListener {
     private JPanel mainPanel;
@@ -168,6 +166,10 @@ public class mainMenu extends JFrame implements ActionListener {
         }
         else if (e.getSource() == randomButton) {
             JOptionPane.showMessageDialog(this, slangs.randomizeASlang(), "Randomize a slang", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else if (e.getSource() == quizButton) {
+            quizMenu quizmenu = new quizMenu("Dictionary quiz", slangs);
+            quizmenu.setVisible(true);
         }
     }
 }
