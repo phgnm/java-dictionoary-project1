@@ -2,7 +2,7 @@ Slag`Meaning
  HK`Hong Kong|Hostile Kids
  MCR`My Chemical Romance (band)
 #1`Number one
-$`Gimme cash|money
+$`Gimme cash|money|dollar
 $_$`Has money
 %)`Drunk|giddy
 &`And
@@ -523,7 +523,6 @@ ATEOTD`At The End Of The Day
 ATF`All Time Favorite
 ATGATT`All The Gear All The Time
 ATH`All Time High
-ATI`Array Technology Inc.
 ATK`Attack
 ATL`Atlanta, Georgia
 ATM`At The Moment|Automated Teller Machine
@@ -721,7 +720,7 @@ BEG`Big Evil Grin
 BEH`disinterest|IDC
 BELF`Blood Elf
 BELLIG`Belligerant
-BENJAMIN`$100 bill
+BENJAMIN`President
 BENT`Dishonest|corrupt
 BER`Beyond Economical Repair
 BERK`Idiot|fool
@@ -7331,7 +7330,7 @@ WWJP`What Would Jesus Post?
 WWOTW`Wicked Witch Of The West
 WWTBAM`Who Wants To Be A Millionaire?
 WWU`Where Were You?
-WWW`World Wide Web
+WWW`world wide web
 WWWY`What's Wrong With You?
 WWY`Where Were You?
 WWYD`What Would You Do?
