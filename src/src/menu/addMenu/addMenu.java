@@ -55,7 +55,7 @@ public class addMenu extends JFrame implements ActionListener {
                 return;
             }
             if (slangs.checkCoincidence(word)) {
-                int n = JOptionPane.showConfirmDialog(this, "This word exists in the dictionary, would you like to overwrite it? \n Choose No will add another word into the dictionary!", "Coincidence found!", JOptionPane.YES_NO_OPTION);
+                int n = JOptionPane.showConfirmDialog(this, "This word exists in the dictionary, would you like to overwrite it? \n Choose No will add another definition into the dictionary!", "Coincidence found!", JOptionPane.YES_NO_OPTION);
                 if (n == JOptionPane.YES_OPTION) {
                     slangs.Overwrite(word, def);
                 }
