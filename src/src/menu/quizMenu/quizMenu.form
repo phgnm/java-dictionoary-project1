@@ -62,7 +62,7 @@
         <properties>
           <background color="-4325441"/>
         </properties>
-        <border type="line"/>
+        <border type="none"/>
         <children>
           <grid id="6a267" binding="questionPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
             <constraints border-constraint="North"/>
@@ -70,7 +70,7 @@
               <background color="-4325441"/>
               <enabled value="true"/>
             </properties>
-            <border type="none"/>
+            <border type="line"/>
             <children>
               <component id="71afc" class="javax.swing.JLabel" binding="question">
                 <constraints/>
@@ -86,39 +86,39 @@
             <properties>
               <background color="-4325441"/>
             </properties>
-            <border type="none"/>
+            <border type="line"/>
             <children>
               <component id="bf4d8" class="javax.swing.JRadioButton" binding="A">
                 <constraints/>
                 <properties>
-                  <background color="-4325489"/>
+                  <background color="-4325441"/>
                   <foreground color="-15004669"/>
-                  <text value="RadioButton"/>
+                  <text value=""/>
                 </properties>
               </component>
               <component id="856ed" class="javax.swing.JRadioButton" binding="B">
                 <constraints/>
                 <properties>
-                  <background color="-4325489"/>
+                  <background color="-4325441"/>
                   <foreground color="-15004669"/>
-                  <text value="RadioButton"/>
+                  <text value=""/>
                 </properties>
               </component>
               <component id="8c500" class="javax.swing.JRadioButton" binding="C">
                 <constraints/>
                 <properties>
-                  <background color="-4325489"/>
+                  <background color="-4325441"/>
                   <enabled value="true"/>
                   <foreground color="-15004669"/>
-                  <text value="RadioButton"/>
+                  <text value=""/>
                 </properties>
               </component>
               <component id="4744" class="javax.swing.JRadioButton" binding="D">
                 <constraints/>
                 <properties>
-                  <background color="-4325489"/>
+                  <background color="-4325441"/>
                   <foreground color="-15004669"/>
-                  <text value="RadioButton"/>
+                  <text value=""/>
                 </properties>
               </component>
             </children>

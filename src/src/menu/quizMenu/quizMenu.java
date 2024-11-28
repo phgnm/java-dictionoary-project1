@@ -69,6 +69,8 @@ public class quizMenu extends JFrame implements ActionListener, ItemListener {
 
         this.setContentPane(mainPanel);
         this.pack();
+
+        accuracy.setText("");
     }
 
     @Override
@@ -156,6 +158,10 @@ public class quizMenu extends JFrame implements ActionListener, ItemListener {
                 }
                 accuracy.setText("Incorrect! The answer should be \"" + correctAnswer + "\".");
             }
+            answerButton.setEnabled(false);
+        }
+        else {
+            this.dispose();
         }
     }
 
